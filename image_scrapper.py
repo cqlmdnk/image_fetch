@@ -40,12 +40,13 @@ def fetch_image_urls(query:str, max_links_to_fetch:int, wd:webdriver, sleep_betw
             # extract image urls    
             actual_images = wd.find_elements_by_css_selector('img.n3VNCb')
             for actual_image in actual_images:
-                
-                if (actual_image.get_attribute('src') and 'http' in actual_image.get_attribute('src')) and ratio_low <= actual_image.size['height'] / actual_image.size['width'] and ratio_high >= actual_image.size['height'] / actual_image.size['width']:
-                    print("ratio :" + str(actual_image.size['height'] / actual_image.size['width']))
-                    if ratio_low <= actual_image.size['height'] / actual_image.size['width'] and ratio_high >= actual_image.size['height'] / actual_image.size['width']:
-                        image_urls.add(actual_image.get_attribute('src'))
-                    
+                try:
+                    if (actual_image.get_attribute('src') and 'http' in actual_image.get_attribute('src')) and ratio_low <= actual_image.size['height'] / actual_image.size['width'] and ratio_high >= actual_image.size['height'] / actual_image.size['width']:
+                        print("ratio :" + str(actual_image.size['height'] / actual_image.size['width']))
+                        if ratio_low <= actual_image.size['height'] / actual_image.size['width'] and ratio_high >= actual_image.size['height'] / actual_image.size['width']:
+                            image_urls.add(actual_image.get_attribute('src'))
+                except:
+                    continue
 
             image_count = len(image_urls)
             
